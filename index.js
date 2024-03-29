@@ -38,16 +38,15 @@ app.post('/api/shorturl', function (req, res) {
     }
 
     count++;
-    const shortUrl = count.toString();
-    urlDatabase.push({ original_url: url, short_url: shortUrl });
+    urlDatabase.push({ original_url: url, short_url: count });
 
-    res.json({ original_url: url, short_url: shortUrl });
+    res.json({ original_url: url, short_url: count });
   });
 });
 
 app.get('/api/shorturl/:short_url', function (req, res) {
   const { short_url } = req.params;
-  const entry = urlDatabase.find((entry) => entry.short_url === short_url);
+  const entry = urlDatabase.find((entry) => entry.count == short_url);
 
   if (!entry) {
     return res.json({ error: 'invalid url' });
